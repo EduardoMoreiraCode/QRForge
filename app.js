@@ -25,39 +25,38 @@ document.getElementById("website").addEventListener("keypress", function(event) 
 })
 
 function downloadQRCode() {
-    let qrCodeImg = document.querySelector("#qrcode img"); //imagem para baixar
-    let siteInput = document.getElementById("website");
-    let linkToDownload = siteInput.value.trim(); //nome do site
-    let qrcodeContainer = document.getElementById("qrcode"); //imagem para sumir
+    let qrCodeImg = document.querySelector("#qrcode img"); //imagem do qrcode
+    let siteInput = document.getElementById("website"); //input
+    let linkToDownload = siteInput.value.trim(); //URL inserida
+    let qrcodeContainer = document.getElementById("qrcode"); //container do qrcode
 
 
     if (qrCodeImg) {
         let siteName = String(linkToDownload).replace(/(^https?:\/\/|\/.*$)/g, "");
 
-        // let canvas = document.createElement("canvas");
-        // let context = canvas.getContext("2d");
+        let canvas = document.createElement("canvas");
+        let context = canvas.getContext("2d");
 
-        // canvas.width = qrCodeImg.width;
-        // canvas.height = qrCodeImg.height;
+        canvas.width = qrCodeImg.width;
+        canvas.height = qrCodeImg.height;
 
-        // context.drawImage(qrCodeImg, 0, 0);
+        context.drawImage(qrCodeImg, 0, 0);
 
-        // let imageDataURL = canvas.toDataURL("image/png");
+        canvas.toBlob(blob => {
 
-        fetch(qrCodeImg.src).then(response => response.blob()).then(blob => {
             let blobURL = URL.createObjectURL(blob);
 
             let link = document.createElement("a");
             link.href = blobURL;
             link.download = `qrcode-${siteName}.png`;
-            link.click();
 
+            link.click();
+            URL.revokeObjectURL(blobURL);
+            
             qrcodeContainer.innerHTML = ""; //some com a img
             siteInput.value = ""; //zera o  input
 
-            URL.revokeObjectURL(blobURL);
-        })
-        .catch(() => alert("Falha no download. Por favor tente novamente."));
+        }, "image/png");     
     } else {
         alert("Gere um QR Code antes!");
     }
