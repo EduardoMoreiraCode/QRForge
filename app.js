@@ -25,14 +25,27 @@ document.getElementById("website").addEventListener("keypress", function(event) 
 })
 
 function downloadQRCode() {
-    let linkToDownload = document.getElementById("website").value.trim(); //nome do site
     let qrCodeImg = document.querySelector("#qrcode img"); //imagem para baixar
     let siteInput = document.getElementById("website");
+    let linkToDownload = siteInput.value.trim(); //nome do site
     let qrcodeContainer = document.getElementById("qrcode"); //imagem para sumir
+
+
     if (qrCodeImg) {
         let siteName = String(linkToDownload).replace(/(^https?:\/\/|\/.*$)/g, "");
+
+        let canvas = document.createElement("canvas");
+        let context = canvas.getContext("2d");
+
+        canvas.width = qrCodeImg.width;
+        canvas.height = qrCodeImg.height;
+
+        context.drawImage(qrCodeImg, 0, 0);
+
+        let imageDataURL = canvas.toDataURL("image/png");
+
         let link = document.createElement("a");
-        link.href = qrCodeImg.src;
+        link.href = imageDataURL;
         link.download = `qrcode-${siteName}.png`;
         link.click();
 
