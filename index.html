@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br" translate="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <meta name="description" content="Gerador de QR Code gratuito e ilimitado">
+    <meta property="og:type" content="website">
+
+    <title>Qreate</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+        crossorigin="anonymous" />
+    <meta name="mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    
+    <link href="icon-qrgen.png" rel="shortcut icon" type="image/x-icon" />
+    <link href="icon-qrgen.png" rel="apple-touch-icon" />
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <form>
+        <h2 class="heading">Qreate - Free QR Code Generator</h2>
+    
+        <input type="url" id="website" name="website" autocomplete="off" placeholder="https://nomedosite.com" required spellcheck="false" />
+    
+        <div id="qrcode-container">
+            <div id="qrcode" class="qrcode"></div>
+        </div>
+    
+        <button id="genButton" type="button" class="generateBtn" onclick="generateQRCode()">Gerar QR Code</button>
+        <button onclick="downloadQRCode()" class="downloadBtn" type="button" id="downloadBtn">Baixar QR Code</button>
+    </form>
+    <script src="app.js"></script>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+</body>
+</html>
