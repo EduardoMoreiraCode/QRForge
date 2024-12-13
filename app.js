@@ -34,23 +34,30 @@ function downloadQRCode() {
     if (qrCodeImg) {
         let siteName = String(linkToDownload).replace(/(^https?:\/\/|\/.*$)/g, "");
 
-        let canvas = document.createElement("canvas");
-        let context = canvas.getContext("2d");
+        // let canvas = document.createElement("canvas");
+        // let context = canvas.getContext("2d");
 
-        canvas.width = qrCodeImg.width;
-        canvas.height = qrCodeImg.height;
+        // canvas.width = qrCodeImg.width;
+        // canvas.height = qrCodeImg.height;
 
-        context.drawImage(qrCodeImg, 0, 0);
+        // context.drawImage(qrCodeImg, 0, 0);
 
-        let imageDataURL = canvas.toDataURL("image/png");
+        // let imageDataURL = canvas.toDataURL("image/png");
 
-        let link = document.createElement("a");
-        link.href = imageDataURL;
-        link.download = `qrcode-${siteName}.png`;
-        link.click();
+        fetch(qrCodeImg.src).then(response => response.blob()).then(blob => {
+            let blobURL = URL.createObjectURL(blob);
 
-        qrcodeContainer.innerHTML = ""; //some com a img
-        siteInput.value = ""; //zera o  input
+            let link = document.createElement("a");
+            link.href = blobURL;
+            link.download = `qrcode-${siteName}.png`;
+            link.click();
+
+            qrcodeContainer.innerHTML = ""; //some com a img
+            siteInput.value = ""; //zera o  input
+
+            URL.revokeObjectURL(blobURL);
+        })
+        .catch(() => alert("Falha no download. Por favor tente novamente."));
     } else {
         alert("Gere um QR Code antes!");
     }
