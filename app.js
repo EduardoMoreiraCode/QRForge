@@ -40,34 +40,37 @@ function downloadQRCode() {
         let canvas = document.createElement("canvas");
         let context = canvas.getContext("2d");
 
-        canvas.width = qrCodeImg.naturalWidth || qrCodeImg.width;
-        canvas.height = qrCodeImg.naturalHeight || qrCodeImg.height;
+        let tempImage = new Image();
+        tempImage.crossOrigin = "anonymous";
+        tempImage.src = qrCodeImg.src;
 
-        context.drawImage(qrCodeImg, 0, 0);
+        tempImage.onload = function () {
+            canvas.width = tempImage.naturalWidth || tempImage.width;
+            canvas.height = tempImage.naturalHeight || tempImage.height;
 
-        canvas.toBlob(blob => {
-            if(!blob) {
-                alert("Erro ao gerar blob");
-                return;
-            }
+            context.drawImage(tempImage, 0, 0);
 
-            alert("Imagem gerada com sucesso!");
-            let blobURL = URL.createObjectURL(blob);
+            canvas.toBlob(blob => {
+                if(!blob) {
+                    alert("Erro ao gerar a imagem do QR Code.");
+                    return;
+                }
 
-            let link = document.createElement("a");
-            link.href = blobURL;
-            link.download = `qrcode-${siteName}.png`;
+                let link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = `qrcode-${siteName}.png`;
 
-            link.style.display = "none";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(blobURL);
-            
-            qrcodeContainer.innerHTML = ""; //some com a img
-            siteInput.value = ""; //zera o  input
+                link.style.display = "none";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
 
-        }, "image/png");     
+                URL.revokeObjectURL(link.href);
+            }, "image/png")
+        };
+        tempImage.onerror = function () {
+            alert("Erro ao carregar imagem do QR Code.");
+        } 
     } else {
         alert("Gere um QR Code antes!");
     }
