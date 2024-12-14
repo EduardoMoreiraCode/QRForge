@@ -32,18 +32,26 @@ function downloadQRCode() {
 
 
     if (qrCodeImg) {
+        alert("QR Code Encontrado!");
+
         let siteName = String(linkToDownload).replace(/(^https?:\/\/|\/.*$)/g, "");
+        alert(`Nome do site: ${siteName}`);
 
         let canvas = document.createElement("canvas");
         let context = canvas.getContext("2d");
 
-        canvas.width = qrCodeImg.width;
-        canvas.height = qrCodeImg.height;
+        canvas.width = qrCodeImg.naturalWidth || qrCodeImg.width;
+        canvas.height = qrCodeImg.naturalHeight || qrCodeImg.height;
 
         context.drawImage(qrCodeImg, 0, 0);
 
         canvas.toBlob(blob => {
+            if(!blob) {
+                alert("Erro ao gerar blob");
+                return;
+            }
 
+            alert("Imagem gerada com sucesso!");
             let blobURL = URL.createObjectURL(blob);
 
             let link = document.createElement("a");
