@@ -37,7 +37,7 @@ function downloadQRCode() {
         let siteName = String(linkToDownload).replace(/(^https?:\/\/|\/.*$)/g, "");
         alert(`Nome do site: ${siteName}`);
 
-        let canvas = document.createElement("canvas");
+        let canvas = document.querySelector("canvas");
         let context = canvas.getContext("2d");
 
         canvas.width = qrCodeImg.naturalWidth || qrCodeImg.width;
