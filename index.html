@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br" translate="no">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -7,6 +7,7 @@
     <meta name="description" content="Gerador de QR Code gratuito e ilimitado">
     <meta property="og:image" content="https://raw.githubusercontent.com/EduardoMoreiraCode/QRForge/main/qrcodelogo.png">
     <meta property="og:type" content="website">
+    <meta content='https://qrforge.vercel.app' property='og:url'/>
 
     <title>QRForge</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
@@ -19,6 +20,7 @@
     <link href="qrcodelogo.png" rel="apple-touch-icon" />
 
     <link rel="stylesheet" href="style.css">
+
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
@@ -35,6 +37,7 @@
         <button onclick="downloadQRCode()" class="downloadBtn" type="button" id="downloadBtn">Baixar QR Code</button>
     </form>
     <script src="app.js"></script>
+    <!-- <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script> -->
     <script src="qrcode.js"></script>
 </body>
 </html>
