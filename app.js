@@ -12,12 +12,7 @@ function generateQRCode() {
 
     let qrcodeContainer = document.getElementById("qrcode");
     qrcodeContainer.innerHTML = "";
-    new QRCode(qrcodeContainer, {
-        text: website,
-        width: 512,
-        height: 512,
-        corretLevel: QRCode.CorretLevel.H,
-    });
+    new QRCode(qrcodeContainer, website);
 
     document.getElementById("qrcode-container").style.display = "block";
 }
@@ -46,7 +41,18 @@ function downloadQRCode() {
     let qrCodeCanvas = qrcodeContainer.querySelector("canvas");
 
     if(qrCodeCanvas) {
-        qrCodeCanvas.toBlob(function (blob) {
+
+        let tempCanvas = document.createElement("canvas");
+        let tempContext = tempCanvas.getContext("2d");
+
+        const scaleFactor = 4;
+        tempCanvas.width = qrCodeCanvas.width * scaleFactor;
+        tempCanvas.height = qrCodeCanvas.height * scaleFactor;
+
+        tempContext.drawImage(qrCodeCanvas, 0, 0, tempCanvas.width, tempCanvas.height);
+    
+
+        tempCanvas.toBlob(function (blob) {
             if(!blob) {
                 alert("Erro ao gerar a imagem do QR Code.");
                 return;
