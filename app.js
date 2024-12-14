@@ -38,38 +38,76 @@ function downloadQRCode() {
 
     let siteName = String(linkToDownload).replace(/(^https?:\/\/|\/.*$)/g, "");
 
-    let qrCodeCanvas = qrcodeContainer.querySelector("canvas");
+    const qrCanvas = document.createElement("canvas");
+    const qrContext = qrCanvas.getContext("2d");
 
-    if(qrCodeCanvas) {
+    const qrSize = 1024;
+    qrCanvas.width = qrSize;
+    qrCanvas.height = qrSize;
 
-        let tempCanvas = document.createElement("canvas");
-        let tempContext = tempCanvas.getContext("2d");
+    const qrCode = new QRCode(qrcodeContainer, {
+        text: linkToDownload,
+        width: qrSize,
+        height: qrSize,
+        correctLevel: QRCode.CorrectLevel.H
+    });
 
-        const scaleFactor = 8;
-        tempCanvas.width = qrCodeCanvas.width * scaleFactor;
-        tempCanvas.height = qrCodeCanvas.height * scaleFactor;
+    setTimeout(() => {
+        const qrImg = qrcodeContainer.querySelector("canvas");
 
-        tempContext.drawImage(qrCodeCanvas, 0, 0, tempCanvas.width, tempCanvas.height);
+        if(qrImg) {
+            qrImg.toBlob(function (blob) {
+                if(!blob) {
+                    alert("Erro ao gerar a imagem do QR Code.");
+                    return;
+                }
+
+                let link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = `qrcode-${siteName}.png`;
+
+                link.style.display = "none";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                URL.revokeObjectURL(link.href);
+            }, "image/png");
+        }
+    }, 500);
+
+    // let qrCodeCanvas = qrcodeContainer.querySelector("canvas");
+
+    // if(qrCodeCanvas) {
+
+    //     let tempCanvas = document.createElement("canvas");
+    //     let tempContext = tempCanvas.getContext("2d");
+
+    //     const scaleFactor = 6;
+    //     tempCanvas.width = qrCodeCanvas.width * scaleFactor;
+    //     tempCanvas.height = qrCodeCanvas.height * scaleFactor;
+
+    //     tempContext.drawImage(qrCodeCanvas, 0, 0, tempCanvas.width, tempCanvas.height);
     
 
-        tempCanvas.toBlob(function (blob) {
-            if(!blob) {
-                alert("Erro ao gerar a imagem do QR Code.");
-                return;
-            }
+    //     tempCanvas.toBlob(function (blob) {
+    //         if(!blob) {
+    //             alert("Erro ao gerar a imagem do QR Code.");
+    //             return;
+    //         }
 
-            let link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = `qrcode-${siteName}.png`;
+    //         let link = document.createElement("a");
+    //         link.href = URL.createObjectURL(blob);
+    //         link.download = `qrcode-${siteName}.png`;
 
-            link.style.display = "none";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+    //         link.style.display = "none";
+    //         document.body.appendChild(link);
+    //         link.click();
+    //         document.body.removeChild(link);
 
-            URL.revokeObjectURL(link.href);
-        }, "image/png");
-    } else {
-        alert("Erro: Nenhum QR Code foi encontrado.");
-    }
+    //         URL.revokeObjectURL(link.href);
+    //     }, "image/png");
+    // } else {
+    //     alert("Erro: Nenhum QR Code foi encontrado.");
+    // }
 }
