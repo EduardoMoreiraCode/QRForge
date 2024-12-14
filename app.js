@@ -12,7 +12,12 @@ function generateQRCode() {
 
     let qrcodeContainer = document.getElementById("qrcode");
     qrcodeContainer.innerHTML = "";
-    new QRCode(qrcodeContainer, website);
+    new QRCode(qrcodeContainer, {
+        text: website,
+        width: 512,
+        height: 512,
+        corretLevel: QRCode.CorretLevel.H,
+    });
 
     document.getElementById("qrcode-container").style.display = "block";
 }
