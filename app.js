@@ -37,7 +37,7 @@ function downloadQRCode() {
         let siteName = String(linkToDownload).replace(/(^https?:\/\/|\/.*$)/g, "");
         alert(`Nome do site: ${siteName}`);
 
-        let canvas = document.querySelector("canvas");
+        let canvas = document.createElement("canvas");
         let context = canvas.getContext("2d");
 
         canvas.width = qrCodeImg.naturalWidth || qrCodeImg.width;
@@ -58,7 +58,10 @@ function downloadQRCode() {
             link.href = blobURL;
             link.download = `qrcode-${siteName}.png`;
 
+            link.style.display = "none";
+            document.body.appendChild(link);
             link.click();
+            document.body.removeChild(link);
             URL.revokeObjectURL(blobURL);
             
             qrcodeContainer.innerHTML = ""; //some com a img
