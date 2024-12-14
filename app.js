@@ -45,7 +45,7 @@ function downloadQRCode() {
         let tempCanvas = document.createElement("canvas");
         let tempContext = tempCanvas.getContext("2d");
 
-        const scaleFactor = 4;
+        const scaleFactor = 6;
         tempCanvas.width = qrCodeCanvas.width * scaleFactor;
         tempCanvas.height = qrCodeCanvas.height * scaleFactor;
 
