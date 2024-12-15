@@ -36,8 +36,19 @@
         <button id="genButton" type="button" class="generateBtn" onclick="generateQRCode()">Gerar QR Code</button>
         <button onclick="downloadQRCode()" class="downloadBtn" type="button" id="downloadBtn">Baixar QR Code</button>
     </form>
+    <script src="service-worker.js"></script>
+    <script>
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("service-worker.js")
+                .then(registration => {
+                    console.log("Service Worker registrado:", registration);
+                })
+                .catch(error => {
+                    console.error("Erro ao registrar o Service Worker:", error);
+                });
+        }
+    </script>
     <script src="app.js"></script>
-    <!-- <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script> -->
     <script src="qrcode.js"></script>
 </body>
 </html>
